@@ -12,7 +12,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'core/services/firebase_service.dart';
+import 'core/services/firestore_service.dart';
+import 'core/services/notification_service.dart';
 import 'core/services/storage_service.dart';
+import 'firebase_options.dart';
 
 /// Bootstrap function that initializes all necessary services
 /// before running the app.
@@ -81,23 +84,33 @@ Future<void> _initializeServices() async {
     await Hive.initFlutter();
     log('✅ Hive initialized');
 
-    // 3. Initialize Firebase Core
-    await Firebase.initializeApp();
+    // 3. Initialize Firebase Core with platform-specific options
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     log('✅ Firebase Core initialized');
 
-    // 4. Initialize Firebase Services
+    // 4. Initialize Firestore
+    await FirestoreService.initialize();
+    log('✅ Firestore initialized');
+
+    // 5. Initialize Firebase Services
     await FirebaseService.initialize();
     log('✅ Firebase Services initialized');
 
-    // 5. Initialize Firebase Messaging Background Handler
+    // 6. Initialize Notification Service
+    await NotificationService.initialize();
+    log('✅ Notification Service initialized');
+
+    // 7. Initialize Firebase Messaging Background Handler
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     log('✅ Firebase Messaging background handler initialized');
 
-    // 6. Initialize storage service
+    // 8. Initialize storage service
     await StorageService.initialize();
     log('✅ Storage service initialized');
 
-    // 7. Set system UI overlay style
+    // 9. Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -108,7 +121,7 @@ Future<void> _initializeServices() async {
       ),
     );
 
-    // 8. Set preferred orientations
+    // 10. Set preferred orientations
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -131,10 +144,13 @@ void _reportError(Object error, StackTrace? stackTrace) {
 /// Firebase background message handler
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   log('Handling background message: ${message.messageId}');
   
   // Handle the background message here
   // You can show a local notification or update app badge
+  // Example: Show local notification, update app badge, etc.
 }
 

@@ -41,7 +41,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       // // fontFamily: _fontFamily,
-      
+
       // Color Scheme
       colorScheme: const ColorScheme.light(
         primary: _primaryColor,
@@ -49,12 +49,10 @@ class AppTheme {
         secondary: _secondaryColor,
         secondaryContainer: _secondaryVariantColor,
         error: _errorColor,
-        background: _lightBackgroundColor,
         surface: _lightSurfaceColor,
         onPrimary: _lightOnPrimaryColor,
         onSecondary: _lightOnSecondaryColor,
         onError: _lightOnErrorColor,
-        onBackground: _lightOnBackgroundColor,
         onSurface: _lightOnSurfaceColor,
         brightness: Brightness.light,
       ),
@@ -81,9 +79,7 @@ class AppTheme {
           foregroundColor: _lightOnPrimaryColor,
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -97,9 +93,7 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: _primaryColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           side: const BorderSide(color: _primaryColor, width: 1),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -114,9 +108,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: _primaryColor,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -129,9 +121,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         elevation: 2,
         color: _lightSurfaceColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.all(8),
       ),
 
@@ -169,7 +159,10 @@ class AppTheme {
           fontSize: 16,
           // fontFamily: _fontFamily,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
 
       // Bottom Navigation Bar Theme
@@ -204,21 +197,19 @@ class AppTheme {
           color: _lightOnSurfaceColor,
           // fontFamily: _fontFamily,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
 
       // Switch Theme
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return _primaryColor;
           }
           return Colors.grey;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return _primaryColor.withOpacity(0.5);
           }
           return Colors.grey.withOpacity(0.5);
@@ -327,7 +318,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       // fontFamily: _fontFamily,
-      
+
       // Color Scheme
       colorScheme: const ColorScheme.dark(
         primary: _primaryColor,
@@ -335,12 +326,10 @@ class AppTheme {
         secondary: _secondaryColor,
         secondaryContainer: _secondaryVariantColor,
         error: _errorColor,
-        background: _darkBackgroundColor,
         surface: _darkSurfaceColor,
         onPrimary: _darkOnPrimaryColor,
         onSecondary: _darkOnSecondaryColor,
         onError: _darkOnErrorColor,
-        onBackground: _darkOnBackgroundColor,
         onSurface: _darkOnSurfaceColor,
         brightness: Brightness.dark,
       ),
@@ -367,9 +356,7 @@ class AppTheme {
           foregroundColor: _darkOnPrimaryColor,
           elevation: 2,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -383,9 +370,7 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: _primaryColor,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           side: const BorderSide(color: _primaryColor, width: 1),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -400,9 +385,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           foregroundColor: _primaryColor,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -415,9 +398,7 @@ class AppTheme {
       cardTheme: CardThemeData(
         elevation: 2,
         color: _darkSurfaceColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.all(8),
       ),
 
@@ -455,7 +436,10 @@ class AppTheme {
           fontSize: 16,
           // fontFamily: _fontFamily,
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
 
       // Bottom Navigation Bar Theme
@@ -490,21 +474,19 @@ class AppTheme {
           color: _darkOnSurfaceColor,
           // fontFamily: _fontFamily,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
 
       // Switch Theme
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return _primaryColor;
           }
           return Colors.grey;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return _primaryColor.withOpacity(0.5);
           }
           return Colors.grey.withOpacity(0.5);
@@ -608,53 +590,47 @@ class AppTheme {
   }
 
   // Custom Colors
-  static const MaterialColor successSwatch = MaterialColor(
-    0xFF4CAF50,
-    <int, Color>{
-      50: Color(0xFFE8F5E8),
-      100: Color(0xFFC8E6C9),
-      200: Color(0xFFA5D6A7),
-      300: Color(0xFF81C784),
-      400: Color(0xFF66BB6A),
-      500: Color(0xFF4CAF50),
-      600: Color(0xFF43A047),
-      700: Color(0xFF388E3C),
-      800: Color(0xFF2E7D32),
-      900: Color(0xFF1B5E20),
-    },
-  );
+  static const MaterialColor successSwatch =
+      MaterialColor(0xFF4CAF50, <int, Color>{
+        50: Color(0xFFE8F5E8),
+        100: Color(0xFFC8E6C9),
+        200: Color(0xFFA5D6A7),
+        300: Color(0xFF81C784),
+        400: Color(0xFF66BB6A),
+        500: Color(0xFF4CAF50),
+        600: Color(0xFF43A047),
+        700: Color(0xFF388E3C),
+        800: Color(0xFF2E7D32),
+        900: Color(0xFF1B5E20),
+      });
 
-  static const MaterialColor warningSwatch = MaterialColor(
-    0xFFFF9800,
-    <int, Color>{
-      50: Color(0xFFFFF3E0),
-      100: Color(0xFFFFE0B2),
-      200: Color(0xFFFFCC80),
-      300: Color(0xFFFFB74D),
-      400: Color(0xFFFFA726),
-      500: Color(0xFFFF9800),
-      600: Color(0xFFFB8C00),
-      700: Color(0xFFF57C00),
-      800: Color(0xFFEF6C00),
-      900: Color(0xFFE65100),
-    },
-  );
+  static const MaterialColor warningSwatch =
+      MaterialColor(0xFFFF9800, <int, Color>{
+        50: Color(0xFFFFF3E0),
+        100: Color(0xFFFFE0B2),
+        200: Color(0xFFFFCC80),
+        300: Color(0xFFFFB74D),
+        400: Color(0xFFFFA726),
+        500: Color(0xFFFF9800),
+        600: Color(0xFFFB8C00),
+        700: Color(0xFFF57C00),
+        800: Color(0xFFEF6C00),
+        900: Color(0xFFE65100),
+      });
 
-  static const MaterialColor errorSwatch = MaterialColor(
-    0xFFF44336,
-    <int, Color>{
-      50: Color(0xFFFFEBEE),
-      100: Color(0xFFFFCDD2),
-      200: Color(0xFFEF9A9A),
-      300: Color(0xFFE57373),
-      400: Color(0xFFEF5350),
-      500: Color(0xFFF44336),
-      600: Color(0xFFE53935),
-      700: Color(0xFFD32F2F),
-      800: Color(0xFFC62828),
-      900: Color(0xFFB71C1C),
-    },
-  );
+  static const MaterialColor errorSwatch =
+      MaterialColor(0xFFF44336, <int, Color>{
+        50: Color(0xFFFFEBEE),
+        100: Color(0xFFFFCDD2),
+        200: Color(0xFFEF9A9A),
+        300: Color(0xFFE57373),
+        400: Color(0xFFEF5350),
+        500: Color(0xFFF44336),
+        600: Color(0xFFE53935),
+        700: Color(0xFFD32F2F),
+        800: Color(0xFFC62828),
+        900: Color(0xFFB71C1C),
+      });
 
   // Helper methods
   static Color get successColor => _successColor;
@@ -664,13 +640,13 @@ class AppTheme {
 
   static Color successColorWithOpacity(double opacity) =>
       _successColor.withOpacity(opacity);
-      
+
   static Color warningColorWithOpacity(double opacity) =>
       _warningColor.withOpacity(opacity);
-      
+
   static Color errorColorWithOpacity(double opacity) =>
       _errorColor.withOpacity(opacity);
-      
+
   static Color infoColorWithOpacity(double opacity) =>
       _infoColor.withOpacity(opacity);
 }

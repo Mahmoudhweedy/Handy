@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
 
 class SplashPage extends StatelessWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,9 @@ class SplashPage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // App Name
               Text(
                 AppConstants.appName,
@@ -55,9 +55,9 @@ class SplashPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              
+
               const SizedBox(height: 8),
-              
+
               // App Description
               Text(
                 'DIY Business Platform',
@@ -65,9 +65,9 @@ class SplashPage extends StatelessWidget {
                   color: Colors.white.withOpacity(0.8),
                 ),
               ),
-              
+
               const SizedBox(height: 48),
-              
+
               // Loading Indicator
               const SizedBox(
                 width: 32,

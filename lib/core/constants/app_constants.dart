@@ -103,6 +103,13 @@ class AppConstants {
   static const String orderCanceled = 'canceled';
   
   // Booking Status
+  static const String bookingStatusPending = 'pending';
+  static const String bookingStatusConfirmed = 'confirmed';
+  static const String bookingStatusInProgress = 'in_progress';
+  static const String bookingStatusCompleted = 'completed';
+  static const String bookingStatusCanceled = 'canceled';
+  
+  // Legacy constants for backward compatibility
   static const String bookingPending = 'pending';
   static const String bookingConfirmed = 'confirmed';
   static const String bookingInProgress = 'in_progress';

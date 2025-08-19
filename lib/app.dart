@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'common/providers/auth_provider.dart';
@@ -12,7 +12,7 @@ import 'core/services/storage_service.dart';
 import 'core/theme/app_theme.dart';
 
 class HandyApp extends ConsumerStatefulWidget {
-  const HandyApp({Key? key}) : super(key: key);
+  const HandyApp({super.key});
 
   @override
   ConsumerState<HandyApp> createState() => _HandyAppState();
@@ -28,7 +28,10 @@ class _HandyAppState extends ConsumerState<HandyApp> {
   }
 
   Future<void> _checkFirstTime() async {
-    final hasSeenOnboarding = StorageService.getSetting<bool>('has_seen_onboarding', defaultValue: false);
+    final hasSeenOnboarding = StorageService.getSetting<bool>(
+      'has_seen_onboarding',
+      defaultValue: false,
+    );
     setState(() {
       _isFirstTime = hasSeenOnboarding != true;
     });
@@ -50,15 +53,15 @@ class _HandyAppState extends ConsumerState<HandyApp> {
       // App Configuration
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
-      
+
       // Routing
       routerConfig: router,
-      
+
       // Theming
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      
+
       // Localization
       locale: locale,
       supportedLocales: const [
@@ -70,27 +73,26 @@ class _HandyAppState extends ConsumerState<HandyApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      
+
       // Accessibility & Performance
       showPerformanceOverlay: false,
       checkerboardRasterCacheImages: false,
       checkerboardOffscreenLayers: false,
       showSemanticsDebugger: false,
-      
+
       // Builder for additional configuration
       builder: (context, child) {
         // Handle text scaling
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            textScaler: MediaQuery.of(context).textScaler.clamp(
-              minScaleFactor: 0.8,
-              maxScaleFactor: 1.3,
-            ),
+            textScaler: MediaQuery.of(
+              context,
+            ).textScaler.clamp(minScaleFactor: 0.8, maxScaleFactor: 1.3),
           ),
           child: child!,
         );
       },
-      
+
       // Error handling
       // Note: Error handling is done in the router configuration
     );
@@ -101,7 +103,7 @@ class _HandyAppState extends ConsumerState<HandyApp> {
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
   final isFirstTime = ref.watch(_isFirstTimeProvider);
-  
+
   return AppRouter.createRouter(
     isAuthenticated: authState.isAuthenticated,
     isFirstTime: isFirstTime,
@@ -110,6 +112,9 @@ final routerProvider = Provider<GoRouter>((ref) {
 
 /// Provider for first time user state
 final _isFirstTimeProvider = StateProvider<bool>((ref) {
-  final hasSeenOnboarding = StorageService.getSetting<bool>('has_seen_onboarding', defaultValue: false);
+  final hasSeenOnboarding = StorageService.getSetting<bool>(
+    'has_seen_onboarding',
+    defaultValue: false,
+  );
   return hasSeenOnboarding != true;
 });

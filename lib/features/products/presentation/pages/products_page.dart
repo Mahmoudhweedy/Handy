@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class ProductsPage extends StatelessWidget {
   final String? initialCategory;
   final String? initialQuery;
-  
-  const ProductsPage({Key? key, this.initialCategory, this.initialQuery}) : super(key: key);
+
+  const ProductsPage({super.key, this.initialCategory, this.initialQuery});
 
   @override
   Widget build(BuildContext context) {

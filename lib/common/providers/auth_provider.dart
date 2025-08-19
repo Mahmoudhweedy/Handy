@@ -61,24 +61,27 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Initialize authentication state
   Future<void> _initializeAuth() async {
     state = state.copyWith(isLoading: true);
-    
+
     try {
       // Check Firebase auth state first
       final firebaseUser = FirebaseService.currentUser;
-      
+
       if (firebaseUser != null) {
         // Convert Firebase user to UserModel
         final userModel = _firebaseUserToUserModel(firebaseUser);
-        
+
         // Get FCM token for notifications
         final fcmToken = await FirebaseService.getFCMToken();
         if (fcmToken != null) {
-          await StorageService.setSecureValue(AppConstants.fcmTokenKey, fcmToken);
+          await StorageService.setSecureValue(
+            AppConstants.fcmTokenKey,
+            fcmToken,
+          );
         }
-        
+
         // Save to local storage
         await _saveAuthData(userModel, firebaseUser.uid);
-        
+
         state = state.copyWith(
           isAuthenticated: true,
           isLoading: false,
@@ -86,16 +89,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
           token: firebaseUser.uid,
           error: null,
         );
-        
+
         log('User authenticated: ${userModel.email}');
       } else {
         // Check local storage as fallback
-        final String? token = await StorageService.getSecureValue(AppConstants.authTokenKey);
-        final Map<String, dynamic>? userData = StorageService.getUserData(AppConstants.userDataKey);
-        
+        final String? token = await StorageService.getSecureValue(
+          AppConstants.authTokenKey,
+        );
+        final Map<String, dynamic>? userData = StorageService.getUserData(
+          AppConstants.userDataKey,
+        );
+
         if (token != null && userData != null) {
           final user = UserModel.fromJson(userData);
-          
+
           state = state.copyWith(
             isAuthenticated: true,
             isLoading: false,
@@ -103,13 +110,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
             token: token,
             error: null,
           );
-          
+
           log('User authenticated from local storage: ${user.email}');
         } else {
-          state = state.copyWith(
-            isAuthenticated: false,
-            isLoading: false,
-          );
+          state = state.copyWith(isAuthenticated: false, isLoading: false);
         }
       }
     } catch (e) {
@@ -125,25 +129,28 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Sign in with email and password
   Future<void> signInWithEmail(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       final firebaseUser = await FirebaseService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      
+
       if (firebaseUser != null) {
         final userModel = _firebaseUserToUserModel(firebaseUser);
-        
+
         // Get FCM token for notifications
         final fcmToken = await FirebaseService.getFCMToken();
         if (fcmToken != null) {
-          await StorageService.setSecureValue(AppConstants.fcmTokenKey, fcmToken);
+          await StorageService.setSecureValue(
+            AppConstants.fcmTokenKey,
+            fcmToken,
+          );
         }
-        
+
         // Save auth data
         await _saveAuthData(userModel, firebaseUser.uid);
-        
+
         state = state.copyWith(
           isAuthenticated: true,
           isLoading: false,
@@ -151,20 +158,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
           token: firebaseUser.uid,
           error: null,
         );
-        
+
         log('User signed in: $email');
       } else {
-        state = state.copyWith(
-          isLoading: false,
-          error: 'Sign in failed',
-        );
+        state = state.copyWith(isLoading: false, error: 'Sign in failed');
       }
     } on AuthException catch (e) {
       log('Sign in failed: ${e.message}');
-      state = state.copyWith(
-        isLoading: false,
-        error: e.message,
-      );
+      state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
       log('Sign in failed: $e');
       state = state.copyWith(
@@ -183,7 +184,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     String? phoneNumber,
   }) async {
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       final displayName = '$firstName $lastName';
       final firebaseUser = await FirebaseService.signUpWithEmailAndPassword(
@@ -191,23 +192,26 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: password,
         displayName: displayName,
       );
-      
+
       if (firebaseUser != null) {
         final userModel = _firebaseUserToUserModel(firebaseUser).copyWith(
           firstName: firstName,
           lastName: lastName,
           phoneNumber: phoneNumber,
         );
-        
+
         // Get FCM token for notifications
         final fcmToken = await FirebaseService.getFCMToken();
         if (fcmToken != null) {
-          await StorageService.setSecureValue(AppConstants.fcmTokenKey, fcmToken);
+          await StorageService.setSecureValue(
+            AppConstants.fcmTokenKey,
+            fcmToken,
+          );
         }
-        
+
         // Save auth data
         await _saveAuthData(userModel, firebaseUser.uid);
-        
+
         state = state.copyWith(
           isAuthenticated: true,
           isLoading: false,
@@ -215,20 +219,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
           token: firebaseUser.uid,
           error: null,
         );
-        
+
         log('User signed up: $email');
       } else {
-        state = state.copyWith(
-          isLoading: false,
-          error: 'Registration failed',
-        );
+        state = state.copyWith(isLoading: false, error: 'Registration failed');
       }
     } on AuthException catch (e) {
       log('Sign up failed: ${e.message}');
-      state = state.copyWith(
-        isLoading: false,
-        error: e.message,
-      );
+      state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
       log('Sign up failed: $e');
       state = state.copyWith(
@@ -241,21 +239,24 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Sign in with Google
   Future<void> signInWithGoogle() async {
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       final firebaseUser = await FirebaseService.signInWithGoogle();
-      
+
       if (firebaseUser != null) {
         final userModel = _firebaseUserToUserModel(firebaseUser);
-        
+
         // Get FCM token for notifications
         final fcmToken = await FirebaseService.getFCMToken();
         if (fcmToken != null) {
-          await StorageService.setSecureValue(AppConstants.fcmTokenKey, fcmToken);
+          await StorageService.setSecureValue(
+            AppConstants.fcmTokenKey,
+            fcmToken,
+          );
         }
-        
+
         await _saveAuthData(userModel, firebaseUser.uid);
-        
+
         state = state.copyWith(
           isAuthenticated: true,
           isLoading: false,
@@ -263,27 +264,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
           token: firebaseUser.uid,
           error: null,
         );
-        
+
         log('User signed in with Google: ${userModel.email}');
       } else {
         // User canceled sign in
-        state = state.copyWith(
-          isLoading: false,
-          error: null,
-        );
+        state = state.copyWith(isLoading: false, error: null);
       }
     } on AuthException catch (e) {
       log('Google sign in failed: ${e.message}');
-      state = state.copyWith(
-        isLoading: false,
-        error: e.message,
-      );
+      state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
       log('Google sign in failed: $e');
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Google sign in failed',
-      );
+      state = state.copyWith(isLoading: false, error: 'Google sign in failed');
     }
   }
 
@@ -297,34 +289,28 @@ class AuthNotifier extends StateNotifier<AuthState> {
       throw AuthException('Failed to send password reset email: $e');
     }
   }
-  
+
   /// Sign out
   Future<void> signOut() async {
     state = state.copyWith(isLoading: true);
-    
+
     try {
       // Cancel token refresh timer
       _tokenRefreshTimer?.cancel();
-      
+
       // Sign out from Firebase
       await FirebaseService.signOut();
-      
+
       // Clear auth data
       await _clearAuthData();
       await StorageService.deleteSecureValue(AppConstants.fcmTokenKey);
-      
-      state = const AuthState(
-        isAuthenticated: false,
-        isLoading: false,
-      );
-      
+
+      state = const AuthState(isAuthenticated: false, isLoading: false);
+
       log('User signed out');
     } catch (e) {
       log('Sign out failed: $e');
-      state = state.copyWith(
-        isLoading: false,
-        error: 'Failed to sign out',
-      );
+      state = state.copyWith(isLoading: false, error: 'Failed to sign out');
     }
   }
 
@@ -340,11 +326,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       // Simulate API call
       await Future.delayed(const Duration(milliseconds: 500));
-      
+
       final updatedUser = state.user!.copyWith(
         firstName: firstName ?? state.user!.firstName,
         lastName: lastName ?? state.user!.lastName,
@@ -352,16 +338,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
         profileImageUrl: profileImageUrl ?? state.user!.profileImageUrl,
         updatedAt: DateTime.now(),
       );
-      
+
       // Save updated user data
-      await StorageService.setUserData(AppConstants.userDataKey, updatedUser.toJson());
-      
-      state = state.copyWith(
-        isLoading: false,
-        user: updatedUser,
-        error: null,
+      await StorageService.setUserData(
+        AppConstants.userDataKey,
+        updatedUser.toJson(),
       );
-      
+
+      state = state.copyWith(isLoading: false, user: updatedUser, error: null);
+
       log('User profile updated');
     } catch (e) {
       log('Profile update failed: $e');
@@ -382,25 +367,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       await FirebaseService.changePassword(
         currentPassword: currentPassword,
         newPassword: newPassword,
       );
-      
-      state = state.copyWith(
-        isLoading: false,
-        error: null,
-      );
-      
+
+      state = state.copyWith(isLoading: false, error: null);
+
       log('Password changed successfully');
     } on AuthException catch (e) {
       log('Password change failed: ${e.message}');
-      state = state.copyWith(
-        isLoading: false,
-        error: e.message,
-      );
+      state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
       log('Password change failed: $e');
       state = state.copyWith(
@@ -417,27 +396,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
 
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       await FirebaseService.deleteAccount(password);
-      
+
       // Clear all user data
       await _clearAuthData();
       await StorageService.clearUserData();
       await StorageService.deleteSecureValue(AppConstants.fcmTokenKey);
-      
-      state = const AuthState(
-        isAuthenticated: false,
-        isLoading: false,
-      );
-      
+
+      state = const AuthState(isAuthenticated: false, isLoading: false);
+
       log('User account deleted');
     } on AuthException catch (e) {
       log('Account deletion failed: ${e.message}');
-      state = state.copyWith(
-        isLoading: false,
-        error: e.message,
-      );
+      state = state.copyWith(isLoading: false, error: e.message);
     } catch (e) {
       log('Account deletion failed: $e');
       state = state.copyWith(
@@ -452,17 +425,18 @@ class AuthNotifier extends StateNotifier<AuthState> {
     if (!state.isAuthenticated || state.token == null) {
       return;
     }
-    
+
     try {
       // Simulate token refresh
       await Future.delayed(const Duration(milliseconds: 500));
-      
-      final newToken = 'refreshed_token_${DateTime.now().millisecondsSinceEpoch}';
-      
+
+      final newToken =
+          'refreshed_token_${DateTime.now().millisecondsSinceEpoch}';
+
       await StorageService.setSecureValue(AppConstants.authTokenKey, newToken);
-      
+
       state = state.copyWith(token: newToken);
-      
+
       log('Token refreshed');
     } catch (e) {
       log('Token refresh failed: $e');
@@ -497,7 +471,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// Set up token refresh timer
   void _setupTokenRefresh() {
     _tokenRefreshTimer?.cancel();
-    
+
     // Refresh token every 15 minutes
     _tokenRefreshTimer = Timer.periodic(
       const Duration(minutes: 15),
@@ -512,7 +486,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   /// Listen to Firebase auth state changes
   void _listenToFirebaseAuthChanges() {
-    _authStateSubscription = FirebaseService.authStateChanges.listen((firebaseUser) {
+    _authStateSubscription = FirebaseService.authStateChanges.listen((
+      firebaseUser,
+    ) {
       if (firebaseUser == null && state.isAuthenticated) {
         // User signed out externally
         _handleExternalSignOut();
@@ -522,55 +498,50 @@ class AuthNotifier extends StateNotifier<AuthState> {
       }
     });
   }
-  
+
   /// Handle sign out from external source
   Future<void> _handleExternalSignOut() async {
     await _clearAuthData();
     await StorageService.deleteSecureValue(AppConstants.fcmTokenKey);
-    state = const AuthState(
-      isAuthenticated: false,
-      isLoading: false,
-    );
+    state = const AuthState(isAuthenticated: false, isLoading: false);
     log('User signed out externally');
   }
-  
+
   /// Handle sign in from external source
   Future<void> _handleExternalSignIn(firebase_auth.User firebaseUser) async {
     try {
       final userModel = _firebaseUserToUserModel(firebaseUser);
-      
+
       // Get FCM token for notifications
       final fcmToken = await FirebaseService.getFCMToken();
       if (fcmToken != null) {
         await StorageService.setSecureValue(AppConstants.fcmTokenKey, fcmToken);
       }
-      
+
       await _saveAuthData(userModel, firebaseUser.uid);
-      
+
       state = state.copyWith(
         isAuthenticated: true,
         user: userModel,
         token: firebaseUser.uid,
         error: null,
       );
-      
+
       log('User signed in externally: ${userModel.email}');
     } catch (e) {
       log('Failed to handle external sign in: $e');
-      state = state.copyWith(
-        error: 'Failed to sync external sign in',
-      );
+      state = state.copyWith(error: 'Failed to sync external sign in');
     }
   }
-  
+
   /// Convert Firebase user to UserModel
   UserModel _firebaseUserToUserModel(firebase_auth.User firebaseUser) {
     final displayNameParts = firebaseUser.displayName?.split(' ') ?? ['User'];
     final firstName = displayNameParts.first;
-    final lastName = displayNameParts.length > 1 
+    final lastName = displayNameParts.length > 1
         ? displayNameParts.sublist(1).join(' ')
         : '';
-    
+
     return UserModel(
       id: firebaseUser.uid,
       email: firebaseUser.email ?? '',

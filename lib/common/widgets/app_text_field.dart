@@ -342,7 +342,6 @@ class _AppTextFieldState extends State<AppTextField> {
       case AppTextFieldType.password:
       case AppTextFieldType.text:
       case AppTextFieldType.search:
-      default:
         return TextInputType.text;
     }
   }
