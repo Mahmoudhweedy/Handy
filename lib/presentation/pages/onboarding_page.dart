@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../core/routing/app_router.dart';
+import '../../core/services/storage_service.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -11,13 +15,25 @@ class OnboardingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Onboarding',
+              'Welcome to Handy',
               style: Theme.of(context).textTheme.headlineLarge,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+            Text(
+              'Your DIY business platform',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 40),
             ElevatedButton(
-              onPressed: () =>
-                  Navigator.of(context).pushReplacementNamed('/login'),
+              onPressed: () async {
+                // Mark onboarding as seen
+                await StorageService.setSetting('has_seen_onboarding', true);
+                
+                // Navigate to login
+                if (context.mounted) {
+                  context.go(AppRouter.login);
+                }
+              },
               child: const Text('Get Started'),
             ),
           ],

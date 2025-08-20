@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.handy"
+    namespace = "com.handy.customer"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 

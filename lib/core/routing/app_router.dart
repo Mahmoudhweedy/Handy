@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../presentation/pages/onboarding_page.dart';
 
-import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/auth/presentation/pages/register_page.dart';
-import '../../features/auth/presentation/pages/forgot_password_page.dart';
-import '../../features/products/presentation/pages/products_page.dart';
-import '../../features/products/presentation/pages/product_details_page.dart';
-import '../../features/cart/presentation/pages/cart_page.dart';
-import '../../features/orders/presentation/pages/orders_page.dart';
-import '../../features/orders/presentation/pages/order_details_page.dart';
-import '../../features/bookings/presentation/pages/bookings_page.dart';
+import '../../features/auth/presentation/pages/crafts_login_page.dart';
+import '../../features/auth/presentation/pages/crafts_register_page.dart';
 import '../../features/bookings/presentation/pages/booking_details_page.dart';
+import '../../features/bookings/presentation/pages/bookings_page.dart';
+import '../../features/cart/presentation/pages/cart_page.dart';
+import '../../features/orders/presentation/pages/order_details_page.dart';
+import '../../features/orders/presentation/pages/orders_page.dart';
+import '../../features/products/presentation/pages/product_details_page.dart';
+import '../../features/products/presentation/pages/products_page.dart';
 import '../../features/profile/presentation/pages/profile_page.dart';
 import '../../features/settings/presentation/pages/settings_page.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/main_wrapper.dart';
 import '../../presentation/pages/splash_page.dart';
-import '../../presentation/pages/onboarding_page.dart';
 
 class AppRouter {
   static const String splash = '/splash';
@@ -40,7 +39,9 @@ class AppRouter {
     required bool isFirstTime,
   }) {
     return GoRouter(
-      initialLocation: isFirstTime ? onboarding : (isAuthenticated ? home : login),
+      initialLocation: isFirstTime
+          ? onboarding
+          : (isAuthenticated ? home : login),
       debugLogDiagnostics: true,
       routes: [
         // Splash Screen
@@ -61,17 +62,17 @@ class AppRouter {
         GoRoute(
           path: login,
           name: 'login',
-          builder: (context, state) => const LoginPage(),
+          builder: (context, state) => const CraftsLoginPage(),
           routes: [
             GoRoute(
               path: 'register',
               name: 'register',
-              builder: (context, state) => const RegisterPage(),
+              builder: (context, state) => const CraftsRegisterPage(),
             ),
             GoRoute(
               path: 'forgot-password',
               name: 'forgot-password',
-              builder: (context, state) => const ForgotPasswordPage(),
+              builder: (context, state) => const Scaffold(),
             ),
           ],
         ),
@@ -194,7 +195,9 @@ class AppRouter {
         }
 
         // Non-authenticated users should only see auth pages or public pages
-        if (!isAuthenticated && !_isAuthRoute(location) && !_isPublicRoute(location)) {
+        if (!isAuthenticated &&
+            !_isAuthRoute(location) &&
+            !_isPublicRoute(location)) {
           return login;
         }
 
@@ -207,11 +210,7 @@ class AppRouter {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 64,
-                  color: Colors.red,
-                ),
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
                 const SizedBox(height: 16),
                 Text(
                   'Page not found',
@@ -219,7 +218,8 @@ class AppRouter {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  state.error?.toString() ?? 'The requested page could not be found.',
+                  state.error?.toString() ??
+                      'The requested page could not be found.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
@@ -265,12 +265,19 @@ class AppRouter {
     context.go(home);
   }
 
-  static void goToProducts(BuildContext context, {String? category, String? query}) {
+  static void goToProducts(
+    BuildContext context, {
+    String? category,
+    String? query,
+  }) {
     final queryParams = <String, String>{};
     if (category != null) queryParams['category'] = category;
     if (query != null) queryParams['query'] = query;
-    
-    final uri = Uri(path: products, queryParameters: queryParams.isNotEmpty ? queryParams : null);
+
+    final uri = Uri(
+      path: products,
+      queryParameters: queryParams.isNotEmpty ? queryParams : null,
+    );
     context.go(uri.toString());
   }
 

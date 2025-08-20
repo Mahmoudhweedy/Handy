@@ -4,15 +4,15 @@ class AppTheme {
   // Private constructor to prevent instantiation
   AppTheme._();
 
-  // Color Palette
-  static const Color _primaryColor = Color(0xFF2196F3);
-  static const Color _primaryVariantColor = Color(0xFF1976D2);
-  static const Color _secondaryColor = Color(0xFFFF9800);
-  static const Color _secondaryVariantColor = Color(0xFFE65100);
+  // Color Palette - Crafts Heritage Theme
+  static const Color _primaryColor = Color(0xFFA0785D); // Brown terra cotta
+  static const Color _primaryVariantColor = Color(0xFF8B6F47); // Darker brown
+  static const Color _secondaryColor = Color(0xFFD4A574); // Light brown/beige
+  static const Color _secondaryVariantColor = Color(0xFFB8956B); // Medium beige
   static const Color _errorColor = Color(0xFFF44336);
   static const Color _warningColor = Color(0xFFFF9800);
   static const Color _successColor = Color(0xFF4CAF50);
-  static const Color _infoColor = Color(0xFF2196F3);
+  static const Color _infoColor = Color(0xFFA0785D);
 
   // Light Theme Colors
   static const Color _lightBackgroundColor = Color(0xFFFAFAFA);
